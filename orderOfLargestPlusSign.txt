@@ -1,0 +1,43 @@
+class Solution {
+    
+    public static int orderOfLargestPlusSign(int N, int[][] mines) {
+        int [][] arrayFilled = fillUp(N, mines);
+        int order = 0;
+        int total;
+
+        for (int i = order; i < N-order; i++){
+            for (int j = order; j < N-order; j++){
+                total = 0;
+                if (arrayFilled[i][j]==1) {
+                    total++;
+                } else {
+                    continue;
+                }
+                for (int k=1; k<=order; k++){
+                    if(arrayFilled[i-k][j]==1) total++; else break;
+                    if(arrayFilled[i][j+k]==1) total++; else break;
+                    if(arrayFilled[i+k][j]==1) total++; else break;
+                    if(arrayFilled[i][j-k]==1) total++; else break;
+                }
+                if(total == (order * 4)+1) {
+                    order++;
+                    if (i-order >= 0) i--;
+                break;
+                }
+            }
+        }
+
+        return order;
+    }
+
+    public static int [][] fillUp (int N, int [][]mines) {
+        int[][] arr = new int[N][N];
+        for (int i = 0; i < arr[0].length; i++){
+            Arrays.fill(arr[i],1);
+        }
+        for (int j = 0; j < mines.length; j++){
+            arr[mines[j][0]][mines[j][1]] = 0;
+        }
+        return arr;
+    }
+}
